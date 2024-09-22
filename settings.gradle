@@ -5,6 +5,5 @@ pluginManagement {
 		gradlePluginPortal()
 	}
 }
-rootProject.name = 'san-giorgio'
-include 'san-giorgio-api'
 
+rootProject.name = 'san_giorgio'
