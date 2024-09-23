@@ -10,6 +10,7 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 public class PaymentMessageSenderService implements SendPaymentMessageUseCase {
+
     private final Map<String, SendMessageAdapter> sendMessageAdapters;
 
     @Override

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public final class PaymentJpaAdapter implements PaymentDataAdapter {
+
     private final PaymentJpaRepository paymentJpaRepository;
 
     public PaymentItem save(final PaymentItem item) {

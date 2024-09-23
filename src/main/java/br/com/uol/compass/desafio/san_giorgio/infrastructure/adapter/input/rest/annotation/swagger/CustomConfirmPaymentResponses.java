@@ -17,6 +17,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD, ElementType.TYPE})
 public @interface CustomConfirmPaymentResponses {
+
     ApiResponse[] value() default {
             @ApiResponse(
                     responseCode = "200",
@@ -60,7 +61,7 @@ public @interface CustomConfirmPaymentResponses {
                                       "path": "/api/v1/payment",
                                       "errors": [
                                         {
-                                          "message": "Internal server error."
+                                          "message": "Error to process request."
                                         }
                                       ]
                                     }

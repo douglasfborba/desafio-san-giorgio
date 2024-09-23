@@ -13,6 +13,7 @@ import java.math.BigInteger;
 @Component
 @RequiredArgsConstructor
 public final class InvoiceJpaAdapter implements InvoiceDataAdapter {
+
     private final InvoiceJpaRepository invoiceJpaRepository;
 
     public Invoice findByInvoiceId(final BigInteger invoiceId) {

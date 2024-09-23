@@ -8,11 +8,12 @@ import software.amazon.awssdk.services.sqs.SqsAsyncClient;
 
 @Getter
 @Component("partial")
-public final class PartialMessageQueueAdapter extends GenericMessageQueueAdapter {
+public final class PartialMessageSenderAdapter extends GenericMessageSenderAdapter {
+
     @Value("${payment.message.queue.partial-payment}")
     private String queueName;
 
-    public PartialMessageQueueAdapter(final ObjectMapper objectMapper, final SqsAsyncClient sqsAsyncClient) {
+    public PartialMessageSenderAdapter(final ObjectMapper objectMapper, final SqsAsyncClient sqsAsyncClient) {
         super(objectMapper, sqsAsyncClient);
     }
 }

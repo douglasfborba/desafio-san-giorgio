@@ -1,4 +1,4 @@
-package br.com.uol.compass.desafio.san_giorgio.application.factory;
+package br.com.uol.compass.desafio.san_giorgio.application.factory.model;
 
 import br.com.uol.compass.desafio.san_giorgio.application.domain.model.Invoice;
 import lombok.RequiredArgsConstructor;

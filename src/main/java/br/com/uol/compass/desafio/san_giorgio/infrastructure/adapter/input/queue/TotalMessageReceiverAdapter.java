@@ -10,6 +10,7 @@ import static br.com.uol.compass.desafio.san_giorgio.application.domain.model.Pa
 
 @Component
 public final class TotalMessageReceiverAdapter extends GenericMessageReceiverAdapter {
+
     public TotalMessageReceiverAdapter(final ObjectMapper objectMapper, final UpdatePaymentStatusUseCase updatePaymentStatusUseCase) {
         super(objectMapper, updatePaymentStatusUseCase);
     }

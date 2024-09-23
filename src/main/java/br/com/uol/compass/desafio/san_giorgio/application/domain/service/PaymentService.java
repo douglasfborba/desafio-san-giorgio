@@ -1,6 +1,5 @@
 package br.com.uol.compass.desafio.san_giorgio.application.domain.service;
 
-import br.com.uol.compass.desafio.san_giorgio.application.domain.model.Invoice;
 import br.com.uol.compass.desafio.san_giorgio.application.domain.model.Payment;
 import br.com.uol.compass.desafio.san_giorgio.application.domain.model.PaymentItem;
 import br.com.uol.compass.desafio.san_giorgio.application.domain.model.PaymentStatus;
@@ -24,6 +23,7 @@ import static br.com.uol.compass.desafio.san_giorgio.application.domain.model.Pa
 @Transactional
 @RequiredArgsConstructor
 public class PaymentService implements ConfirmPaymentUseCase, UpdatePaymentStatusUseCase {
+    
     private final SellerDataAdapter sellerDataAdapter;
     private final InvoiceDataAdapter invoiceDataAdapter;
     private final PaymentDataAdapter paymentDataAdapter;
@@ -31,8 +31,9 @@ public class PaymentService implements ConfirmPaymentUseCase, UpdatePaymentStatu
 
     @Override
     public Payment confirm(final Payment payment) {
+        var seller = sellerDataAdapter.findSellerById(payment.getSeller().getId());
         var updatedItems = payment.getPaymentItems().stream()
-                .map(paymentItem -> processPaymentItem(getSeller(payment), paymentItem))
+                .map(paymentItem -> processPaymentItem(seller, paymentItem))
                 .toList();
 
         return payment.toBuilder()
@@ -55,38 +56,28 @@ public class PaymentService implements ConfirmPaymentUseCase, UpdatePaymentStatu
     }
 
     private PaymentItem processPaymentItem(final Seller seller, final PaymentItem paymentItem) {
-        var paymentStatus = determineStatus(getInvoice(paymentItem).getTotal(), paymentItem.getPaymentValue());
+        var invoice = invoiceDataAdapter.findByInvoiceId(paymentItem.getInvoice().getId());
+        var status = getPaymentStatus(invoice.getTotal(), paymentItem.getPaymentValue());
+
         var updatedItem = paymentItem.toBuilder()
-                .invoice(getInvoice(paymentItem))
+                .invoice(invoice)
                 .seller(seller)
                 .build();
 
-        sendPaymentMessageUseCase.send(paymentStatus, updatedItem);
+        sendPaymentMessageUseCase.send(status, updatedItem);
 
         updatedItem = updatedItem.toBuilder()
-                .paymentStatus(paymentStatus)
+                .paymentStatus(status)
                 .build();
 
         return updatedItem;
     }
 
-    private PaymentStatus determineStatus(final BigDecimal invoicePrice, final BigDecimal paymentValue) {
-        var comparison = invoicePrice.compareTo(paymentValue);
-
-        if (comparison > 0) {
-            return PARTIAL;
-        } else if (comparison < 0) {
-            return SURPLUS;
-        } else {
-            return TOTAL;
-        }
-    }
-
-    private Seller getSeller(final Payment payment) {
-        return sellerDataAdapter.findSellerById(payment.getSeller().getId());
-    }
-
-    private Invoice getInvoice(final PaymentItem paymentItem) {
-        return invoiceDataAdapter.findByInvoiceId(paymentItem.getInvoice().getId());
+    private PaymentStatus getPaymentStatus(final BigDecimal invoicePrice, final BigDecimal paymentValue) {
+        return switch(invoicePrice.compareTo(paymentValue)) {
+            case 1 -> PARTIAL;
+            case -1 -> SURPLUS;
+            default -> TOTAL;
+        };
     }
 }

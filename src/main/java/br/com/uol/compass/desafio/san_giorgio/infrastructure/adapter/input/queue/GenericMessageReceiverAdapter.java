@@ -12,13 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Slf4j
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public abstract class GenericMessageReceiverAdapter implements ReceiveMessageAdapter {
-    protected final ObjectMapper objectMapper;
+
+    protected final ObjectMapper mapper;
     protected final UpdatePaymentStatusUseCase updatePaymentStatusUseCase;
 
     @Override
     public void receive(final String payload) {
         try {
-            var message = objectMapper.readValue(payload, PaymentMessage.class);
+            var message = mapper.readValue(payload, PaymentMessage.class);
             log.info("Message received from queue {}", message);
             updatePaymentStatusUseCase.update(getPaymentStatus(), message.toDomain());
             log.info("Payment status updated with success.");

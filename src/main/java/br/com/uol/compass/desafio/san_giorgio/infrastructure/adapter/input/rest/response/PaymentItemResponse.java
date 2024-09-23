@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
+import static java.util.Objects.nonNull;
 
 @JsonInclude(NON_EMPTY)
 @Schema(description = "Payment item response details.")
@@ -25,7 +26,9 @@ public record PaymentItemResponse(
         return new PaymentItemResponse(
                 domain.getId(),
                 domain.getPaymentValue(),
-                domain.getPaymentStatus().name()
+                nonNull(domain.getPaymentStatus())
+                        ? domain.getPaymentStatus().name()
+                        : null
         );
     }
 }

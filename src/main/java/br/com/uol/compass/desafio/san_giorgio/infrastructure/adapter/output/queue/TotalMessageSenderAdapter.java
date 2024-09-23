@@ -8,11 +8,12 @@ import software.amazon.awssdk.services.sqs.SqsAsyncClient;
 
 @Getter
 @Component("total")
-public final class TotalMessageQueueAdapter extends GenericMessageQueueAdapter {
+public final class TotalMessageSenderAdapter extends GenericMessageSenderAdapter {
+
     @Value("${payment.message.queue.total-payment}")
     private String queueName;
 
-    public TotalMessageQueueAdapter(final ObjectMapper objectMapper, final SqsAsyncClient sqsAsyncClient) {
+    public TotalMessageSenderAdapter(final ObjectMapper objectMapper, final SqsAsyncClient sqsAsyncClient) {
         super(objectMapper, sqsAsyncClient);
     }
 }

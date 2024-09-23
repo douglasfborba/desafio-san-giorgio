@@ -13,8 +13,9 @@ import software.amazon.awssdk.services.sqs.model.SendMessageRequest;
 
 @Slf4j
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
-public abstract class GenericMessageQueueAdapter implements SendMessageAdapter {
-    protected final ObjectMapper objectMapper;
+public abstract class GenericMessageSenderAdapter implements SendMessageAdapter {
+
+    protected final ObjectMapper mapper;
     protected final SqsAsyncClient sqsAsyncClient;
 
     @Override
@@ -22,10 +23,12 @@ public abstract class GenericMessageQueueAdapter implements SendMessageAdapter {
         log.info("Sending payload {} to queue {}", domain, getQueueName());
         try {
             var message = PaymentMessage.fromDomain(domain);
-            var result = sqsAsyncClient.sendMessage(SendMessageRequest.builder()
-                    .queueUrl(getQueueName())
-                    .messageBody(objectMapper.writeValueAsString(message))
-                    .build());
+            var result = sqsAsyncClient.sendMessage(
+                    SendMessageRequest.builder()
+                        .queueUrl(getQueueName())
+                        .messageBody(mapper.writeValueAsString(message))
+                        .build()
+            );
             log.info("Payload sent to queue successfully {}.", result);
         } catch (Exception e) {
             log.error("Error to send message to queue.");

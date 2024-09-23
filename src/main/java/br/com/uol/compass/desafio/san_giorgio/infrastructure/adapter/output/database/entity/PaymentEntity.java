@@ -18,6 +18,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
+import static java.util.Objects.nonNull;
 
 @Getter
 @Entity
@@ -26,6 +27,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @AllArgsConstructor
 @Builder(toBuilder = true)
 public class PaymentEntity {
+
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "PAYMENT_ID", nullable = false, unique = true)
@@ -61,7 +63,10 @@ public class PaymentEntity {
                 .invoice(InvoiceEntity.fromDomain(domain.getInvoice()))
                 .seller(SellerEntity.fromDomain(domain.getSeller()))
                 .amount(domain.getPaymentValue())
-                .status(domain.getPaymentStatus().getValue())
+                .status(nonNull(domain.getPaymentStatus())
+                        ? domain.getPaymentStatus().getValue()
+                        : null
+                )
                 .build();
     }
 }

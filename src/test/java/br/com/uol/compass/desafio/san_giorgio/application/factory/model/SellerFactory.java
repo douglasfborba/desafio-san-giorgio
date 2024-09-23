@@ -1,4 +1,4 @@
-package br.com.uol.compass.desafio.san_giorgio.application.factory;
+package br.com.uol.compass.desafio.san_giorgio.application.factory.model;
 
 import br.com.uol.compass.desafio.san_giorgio.application.domain.model.Seller;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +11,7 @@ import static lombok.AccessLevel.PRIVATE;
 public class SellerFactory {
     public static Seller createSeller() {
         return Seller.builder()
-                .id(BigInteger.valueOf(1L))
+                .id(BigInteger.valueOf(3))
                 .name("Francisca Luna Fernandes")
                 .build();
     }

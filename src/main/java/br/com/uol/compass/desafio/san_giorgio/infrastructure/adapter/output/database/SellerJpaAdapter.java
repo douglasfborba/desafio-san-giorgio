@@ -13,11 +13,12 @@ import java.math.BigInteger;
 @Component
 @RequiredArgsConstructor
 public final class SellerJpaAdapter implements SellerDataAdapter {
+
     private final SellerJpaRepository sellerJpaRepository;
 
     public Seller findSellerById(final BigInteger sellerId) {
         return sellerJpaRepository.findById(sellerId)
                 .map(SellerEntity::toDomain)
-                .orElseThrow(SellerNotFoundException::new);
+                    .orElseThrow(SellerNotFoundException::new);
     }
 }

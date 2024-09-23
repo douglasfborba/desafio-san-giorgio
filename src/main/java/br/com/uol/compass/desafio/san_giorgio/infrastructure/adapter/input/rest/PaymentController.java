@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @Tag(name = "Payment", description = "Payment management APIs")
 public class PaymentController {
+
     private final ConfirmPaymentUseCase confirmPaymentUseCase;
 
     @PutMapping(path = "/v1/payment")

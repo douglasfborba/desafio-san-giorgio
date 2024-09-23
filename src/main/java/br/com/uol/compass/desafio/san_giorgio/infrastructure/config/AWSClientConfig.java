@@ -17,6 +17,7 @@ import java.util.concurrent.CompletableFuture;
 
 @Configuration
 public class AWSClientConfig {
+
     @Value("${amazon.aws.region}")
     private String region;
 

@@ -8,11 +8,12 @@ import software.amazon.awssdk.services.sqs.SqsAsyncClient;
 
 @Getter
 @Component("surplus")
-public final class SurplusMessageQueueAdapter extends GenericMessageQueueAdapter {
+public final class SurplusMessageSenderAdapter extends GenericMessageSenderAdapter {
+
     @Value("${payment.message.queue.surplus-payment}")
     private String queueName;
 
-    public SurplusMessageQueueAdapter(final ObjectMapper objectMapper, final SqsAsyncClient sqsAsyncClient) {
+    public SurplusMessageSenderAdapter(final ObjectMapper objectMapper, final SqsAsyncClient sqsAsyncClient) {
         super(objectMapper, sqsAsyncClient);
     }
 }

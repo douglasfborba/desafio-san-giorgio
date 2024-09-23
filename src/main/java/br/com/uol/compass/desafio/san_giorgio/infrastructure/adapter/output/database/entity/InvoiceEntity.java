@@ -26,6 +26,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @AllArgsConstructor
 @Builder(toBuilder = true)
 public class InvoiceEntity {
+
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "INVOICE_ID")

@@ -25,6 +25,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @AllArgsConstructor
 @Builder(toBuilder = true)
 public class SellerEntity {
+
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "SELLER_ID", nullable = false)

@@ -19,8 +19,9 @@ import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 @Slf4j
 @ControllerAdvice
 public class ControllerExceptionHandler {
-    @ExceptionHandler(value = Exception.class)
-    public ResponseEntity<ErrorResponse> handleException(final BusinessException exception,
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleException(final Exception exception,
                                                          final HttpServletRequest request) {
         log.error("Exception with message: {}", exception.getMessage(), exception);
         return ResponseEntity
@@ -35,7 +36,7 @@ public class ControllerExceptionHandler {
                 );
     }
 
-    @ExceptionHandler(value = BusinessException.class)
+    @ExceptionHandler(BusinessException.class)
     public ResponseEntity<ErrorResponse> handleBusinessException(final BusinessException exception,
                                                                  final HttpServletRequest request) {
         log.error("BusinessException with message: {}", exception.getMessage(), exception);
@@ -51,7 +52,7 @@ public class ControllerExceptionHandler {
                 );
     }
 
-    @ExceptionHandler(value = MethodArgumentNotValidException.class)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(final MethodArgumentNotValidException exception,
                                                                                final HttpServletRequest request) {
         log.error("MethodArgumentNotValidException with message: {}", exception.getMessage(), exception);
